@@ -1,0 +1,11 @@
+dash~=2.18.2
+dash-bootstrap-components~=1.6.0
+matplotlib~=3.9.2
+pandas~=2.2.3
+requests~=2.32.3
+plotly~=5.24.1
+pypdf2~=3.0.1
+click~=8.1.7
+gunicorn
+dash_bootstrap_templates
+kaleido

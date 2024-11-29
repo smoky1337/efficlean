@@ -1,0 +1,186 @@
+/* Import the Ubuntu font */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+:root {
+    /* Color Palette */
+    --primary-color: #671057;
+    --secondary-color: #35E4B2;
+    --text-color: #ffffff;
+    --background-color: #671057;
+    --background-color2: #ffffff;
+
+    /* Typography */
+    --font-family: 'Ubuntu', sans-serif;
+
+    /* Spacing and Layout */
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+    margin: 0.5em 0;
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+a:hover {
+    color: var(--primary-color);
+}
+
+button {
+    background-color: var(--background-color2);
+    color: var(--primary-color);
+    border: none;
+    margin: 1%;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+button:hover {
+    color: var(--secondary-color);
+}
+
+input, textarea {
+    font-family: var(--font-family);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+}
+
+#logo {
+    display: inline-block;
+}
+#customer {
+    display: inline-block;
+    max-height:4vh
+}
+
+
+.header {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position:static;
+    top:0;
+    width:100%;
+    height: 5%;
+
+}
+.belowheader {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position:static;
+    margin-left: 5%;
+    width:90%;
+    height: 5%;
+
+}
+
+.header-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.header-section.left {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.header-section.right {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.footer {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+
+/* Dash Components */
+#date_picker_div {
+    background-color: var(--background-color2);
+    color: var(--primary-color);
+    border: none;
+    margin: 1%;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+#date_picker:hover {
+    color: var(--secondary-color);
+}
+
+
+#mainContent {
+    text-align: center;
+    display: block;
+    color:black;
+    margin: 0 auto;
+    width: 90%;
+    align-content: center;
+}
+
+#table {
+    width: 90%;
+    color:black;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 2.5%;
+}
+
+#alert {
+    background-color: rgba(30,30,30,30);
+    border-radius: 5%;
+    border-color:black;
+    z-index: 999 !important;
+    position: fixed;
+    top: 2%;
+    right: 25%;
+    width: 15%;
+    padding: 0.5%;
+
+}

@@ -1,0 +1,17 @@
+{
+    "EMAIL": {
+        "FROM": "",
+        "TO": [
+        ],
+        "CC": [
+        ],
+        "SUBJECT": "",
+        "TEMPLATE": "",
+        "MESSAGE": "",
+        "SERVER": "",
+        "PORT": 587,
+        "USERNAME": "",
+        "PASSWORD": ""
+    },
+    "SMOODU-API-KEY": ""
+}

@@ -1,0 +1,93 @@
+{
+  "german": {
+    "headline" : "EffiClean Reinigungsplaner",
+    "date_selector_text" : "Gewünschten Zeitraum auswählen",
+    "download_pdf" : "Download PDF",
+    "send_mail": "Versand via Mail",
+    "settings": "Einstellungen",
+    "apartment_filter_placeholder": "Apartments filtern",
+    "max_days_label": "Max. Tage",
+    "max_days_placeholder": "Tage",
+    "apply_filters": "Aktualisieren",
+
+
+    "settings_integrations": "Integrationen",
+    "smoodu_api": "Smoodu API-Schlüssel",
+
+    "sharing": "Kommunikation",
+    "mail_from": "Mail Absender Adresse",
+    "mail_to": "Mail Empfänger (durch Komma trennen)",
+    "mail_cc": "Mail CC (durch Komma trennen)",
+    "mail_subject": "Betreff",
+    "mail_message": "Inhalt der Mail (HTML)",
+    "mail_template": "Template der Mail (HTML). Muss [MESSAGE] beinhalten",
+
+    "mail_server": "Mail-Server",
+    "mail_server_adress": "Mail-Server Adresse",
+    "mail_server-port": "Mail-Server Port (587)",
+    "mail_server-username": "Benutzername",
+    "mail_server-passwort": "Password",
+
+    "settings_save": "Speichern",
+    "settings_dismiss": "Verwerfen",
+
+
+
+
+    "g_title": "Reinigungsplan von [START] bis [ENDE]",
+    "g_legend": "Gleichzeitig zu reinigende Apartmetns",
+    "g_y_label": "Apartment",
+    "g_x_label": "Datum",
+
+
+    "t_date": "Datum",
+    "t_clean_indicator": "Reinigung für [PEOPLE] Personen)"
+
+  },
+  "english": {
+    "headline" : "EffiClean Cleaning Scheduler",
+    "date_selector_text" : "Choose date range",
+    "download_pdf" : "Download PDF",
+    "send_mail": "Share by mail",
+    "settings": "Settinges",
+    "apartment_filter_placeholder": "Filter apartments",
+    "max_days_label": "Max. days",
+    "max_days_placeholder": "Days",
+    "apply_filters": "Apply",
+
+
+    "settings_integrations": "Integrations",
+    "smoodu_api": "Smoodu API key",
+
+    "sharing": "Communication",
+    "mail_from": "Mail Sender",
+    "mail_to": "Mail Receipients (seperate by comma)",
+    "mail_cc": "Mail CC (seperate by comma)",
+    "mail_subject": "Subject",
+    "mail_message": "Conten of mail (HTML)",
+    "mail_template": "Template of mail (HTML). Must include [MESSAGE]",
+
+    "mail_server": "Mail server",
+    "mail_server_adress": "Mail server adresse",
+    "mail_server-port": "Mail server port (587)",
+    "mail_server-username": "Username",
+    "mail_server-passwort": "Passwort",
+
+    "settings_save": "Save",
+    "settings_dismiss": "Dismiss",
+
+
+
+
+    "g_title": "Cleaning schedule starting [START] until [ENDE]",
+    "g_legend": "Number of available apartments",
+    "g_y_label": "Apartment",
+    "g_x_label": "Date",
+
+
+    "t_date": "Date",
+    "t_clean_indicator": "Cleaning for [PEOPLE] people)"
+
+  }
+
+}
