@@ -1,5 +1,6 @@
 import json
 import os
+from math import expm1
 
 import matplotlib.backends.backend_pdf
 import pandas as pd
@@ -8,11 +9,11 @@ import requests
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from PyPDF2 import PdfMerger
-
 import datetime
 from datetime import datetime, timedelta
 import plotly.graph_objects as go
-CONFIG = {}
+USER_CONFIG = {}
+APP_CONFIG = {}
 import plotly.io as pio
 pio.kaleido.scope.mathjax = None
 
@@ -29,7 +30,7 @@ def get(url, payload):
     Returns:
     - Response: The response object from the GET request.
     """
-    headers = {"Api-Key": CONFIG["SMOODU-API-KEY"], "Cache-Control": "no-cache"}
+    headers = {"Api-Key": USER_CONFIG["SMOODU-API-KEY"], "Cache-Control": "no-cache"}
 
     return requests.get(url=url, headers=headers, params=payload)
 
@@ -172,10 +173,10 @@ def create_dfs(df, max_days_uncleaned, start, end):
     best_days_with_numbers = get_number_of_people(best_days, bookings)
 
     all_appointments = all_appointments.astype(str)
-    best_days_with_numbers.sort_values("Datum", ascending=True, inplace=True)
-    best_days_with_numbers = best_days_with_numbers[best_days_with_numbers["Datum"].between(start,end)]
-    best_days_with_numbers["Datum"] = [datetime.strftime(t, "%d.%m.%y") for t in
-                                      best_days_with_numbers["Datum"].tolist()]
+    best_days_with_numbers.sort_values("date", ascending=True, inplace=True)
+    best_days_with_numbers = best_days_with_numbers[best_days_with_numbers["date"].between(start,end)]
+    best_days_with_numbers["date"] = [datetime.strftime(t, "%d.%m.%y") for t in
+                                      best_days_with_numbers["date"].tolist()]
     for c in all_appointments.columns:
         all_appointments[c] = all_appointments[c].astype(str)
 
@@ -246,8 +247,8 @@ def return_best_cleaning_days(df, max_days_uncleaned):
             cleaning_days[apartment].append(cleaning_day)
     return cleaning_days
 
-
 def get_number_of_people(best_days, bookings):
+    texts = get_texts()
     bookings = bookings[["arrival", "apartment", "adults", "children"]]
     bookings.sort_values("arrival", ascending=True, inplace=True)
     bookings["date"] = bookings["arrival"].dt.date
@@ -262,7 +263,6 @@ def get_number_of_people(best_days, bookings):
     dfa_p.sort_values("date", ascending=True, inplace=True)
     dfa_p["date"] = [datetime.strftime(t, "%d.%m.%y") for t in dfa_p["date"].tolist()]
     dfa_p = dfa_p.rename_axis(None, axis=1)
-    #dfa_p = dfa_p.iloc[1:]
     dfa_p["date"] = [datetime.strptime(k, "%d.%m.%y") for k in dfa_p["date"].tolist()]
 
     def nearest(items, pivot):
@@ -271,35 +271,38 @@ def get_number_of_people(best_days, bookings):
     rows = []
     for i, r in best_days.iterrows():
         try:
-            r["Datum"] = datetime.strptime(r["Datum"], "%d.%m.%y")
-            n_date = nearest(dfa_p["date"], r["Datum"])
+            r["date"] = datetime.strptime(r["date"], "%d.%m.%y")
+            n_date = nearest(dfa_p["date"], r["date"])
             values = dfa_p[dfa_p["date"] == n_date]
         except (KeyError, IndexError):
             pass
         cols = best_days.columns[1:]
         for c in cols:
-            if r[c] == "Reinigung":
+            if r[c] == "clean":
                 v = values[c].item()
                 if v:
-                    r[c] = f"Reinigung ({v} Personen)"
+                    r[c] = texts["t_clean_indicator"].replace("[PEOPLE]", str(v))
                 else:
-                    r[c] = f"Reinigung (# Personen folgt)"
+                    r[c] = texts["t_clean_unknown"]
         rows.append(r)
     cleaning_with_people = pd.DataFrame(rows)
     return cleaning_with_people
 
 
+
 def best_cleaning_day_table(df):
+    texts = get_texts()
     dfa = df[["arrival", "apartment"]]
-    dfa.columns = ["Datum", "Apartment"]
+    dfa.columns = ["date", "Apartment"]
     apartments = dfa["Apartment"].unique()
-    dfa.sort_values("Datum", inplace=True)
-    dfa["Datum"] = [datetime.strftime(t, "%d.%m.%y") for t in dfa["Datum"].tolist()]
-    dfa_p = dfa.pivot(index="Datum", columns="Apartment", values="Apartment")
+    dfa.sort_values("date", inplace=True)
+    dfa["date"] = [datetime.strftime(t, "%d.%m.%y") for t in dfa["date"].tolist()]
+    dfa_p = dfa.pivot(index="date", columns="Apartment", values="Apartment")
     dfa_p.fillna("-")
     for apartment in apartments:
-        dfa_p[apartment].replace(apartment, "Reinigung", inplace=True)
+        dfa_p[apartment].replace(apartment, "clean", inplace=True)
     dfa_p.reset_index(inplace=True)
+
     return dfa_p
 
 
@@ -352,22 +355,49 @@ def create_pdf(fig, table):
 # endregion
 
 
-# region AppConfig
+# region userconfig
 def set_config(config_dict):
-    global CONFIG
-    CONFIG = config_dict
-    with open("config.json", "w", encoding="utf-8") as f:
-        json.dump(CONFIG, f, ensure_ascii=False, indent=4)
+    global USER_CONFIG
+    USER_CONFIG = config_dict
+    with open(os.path.join("configs", "user_config.json"), "w", encoding="utf-8") as f:
+        json.dump(USER_CONFIG, f, ensure_ascii=False, indent=4)
 
 def get_config():
-    return CONFIG
+    return USER_CONFIG
 
 def set_or_load_config():
     try:
-        with open("config.json", "r", encoding="utf-8") as f:
-            CONFIG.update(json.load(f))
+        with open(os.path.join("configs", "user_config.json"), "r", encoding="utf-8") as f:
+            USER_CONFIG.update(json.load(f))
+    except FileNotFoundError as e:
+        #USER_CONFIG.update()
+        print(e)
+        pass
+
+# endregion
+
+# region appconfig
+def set_app_config(config_dict):
+    global APP_CONFIG
+    APP_CONFIG = config_dict
+    with open(os.path.join("configs", "app_config.json"), "w", encoding="utf-8") as f:
+        json.dump(APP_CONFIG, f, ensure_ascii=False, indent=4)
+
+def get_app_config():
+    return APP_CONFIG
+
+def get_texts():
+    try:
+        return APP_CONFIG["language"][get_config()["language"]]
+    except KeyError:
+        return APP_CONFIG["language"]["english"]
+
+def set_or_load_app_config():
+    try:
+        with open(os.path.join("configs", "app_config.json"), "r", encoding="utf-8") as f:
+            APP_CONFIG.update(json.load(f))
     except FileNotFoundError:
-        #CONFIG.update()
+        #USER_CONFIG.update()
         pass
 
 # endregion

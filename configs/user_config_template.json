@@ -13,5 +13,6 @@
         "USERNAME": "",
         "PASSWORD": ""
     },
-    "SMOODU-API-KEY": ""
+    "SMOODU-API-KEY": "",
+    "LANGUAGE": ""
 }

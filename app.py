@@ -6,7 +6,7 @@ warnings.filterwarnings("ignore")
 import dash
 from dash import Dash, dcc, callback, Output, Input, no_update, State, set_props, html,clientside_callback
 from clean_app.backend.backend import get_bookings_in_interval, create_dfs, create_pdf, set_or_load_config, \
-    get_config, set_config
+    get_config, set_config, set_or_load_app_config
 import clean_app.backend.mail as mail
 from clean_app.frontend.frontend import create_figure, get_app_layout
 import dash_bootstrap_components as dbc
@@ -20,8 +20,6 @@ PreviousTable = None
      Output(component_id='table_loader', component_property='children'),
      Output(component_id="alert", component_property='is_open'),
      Output(component_id="alert",component_property='children'),
-    #MAILHACK!!
-    Output(component_id="mailhack", component_property='href'),
     Input(component_id='date_picker', component_property='end_date'),
     Input(component_id="apartment_selector_confirm", component_property='n_clicks'),
     State(component_id='date_picker', component_property='start_date'),
@@ -35,14 +33,14 @@ def update_graph(end, n_clicks, start,max_days_uncleaned,subset):
         if c["SMOODU-API-KEY"]:
           pass
     except KeyError:
-        return no_update, no_update, True, str("Kein API-KEY gefunden. Bitte in den Einstellungen setzen."), no_update
+        return no_update, no_update, True, str("Kein API-KEY gefunden. Bitte in den Einstellungen setzen.")
     global PreviousFigure
     global PreviousTable
     start = start.split("T")[0]
     end = end.split("T")[0]
     df = get_bookings_in_interval(start, end)
     if type(df) is AssertionError:
-        return no_update, no_update,True, str(df), no_update
+        return no_update, no_update,True, str(df)
     all_appointments, best_days_with_numbers, cleaning_schedule = create_dfs(df, max_days_uncleaned, start, end)
     set_props("apartment_selector",{"options":all_appointments["apartment"].unique()})
     fig = create_figure(start, end, all_appointments, cleaning_schedule, subset)
@@ -52,18 +50,8 @@ def update_graph(end, n_clicks, start,max_days_uncleaned,subset):
         subset.insert(0,"Datum")
         best_days_with_numbers = best_days_with_numbers[subset]
 
-    #region MailHack
-    href = ("mailto:?subject=KW[KW]%20Neuer%20Putzplan&body=Guten%20Tag%2C%20%0D%0A%0D%0Awie%20besprochen%20finden%20Sie%20anbei%20den%20Putzplan%20f%C3%BCr%20die%20KW"
-            "%20[KW].%20Falls%20%C3%84nderungen%20anfallen%2C%20melden%20wir%20uns%20unter%20dem%20selben%20Betreff%20bei"
-            "%20Ihnen.%20%0D%0ABei%20R%C3%BCckfragen%20rufen%20Sie%20bitte%20die%20%2B49XXXXXX%20an.%20%0D%0A%0D%0AViele%20Gr"
-            "%C3%BC%C3%9Fe%2C%20%0D%0AIhr%20Vitihof%20Service%20Team")
-    start = datetime.fromisoformat(start).isocalendar().week
-    end = datetime.fromisoformat(end).isocalendar().week
-    weeks = "/".join([str(x) for x in list(range(start, end))])
-    href = href.replace("[KW]", "[ "+ weeks+ " ]")
-    #endregion MailHack
     PreviousTable = best_days_with_numbers.to_dict(orient='records')
-    return dcc.Graph(figure=fig),dbc.Table.from_dataframe(best_days_with_numbers, id="table_days",striped=True), no_update, no_update, href
+    return dcc.Graph(figure=fig),dbc.Table.from_dataframe(best_days_with_numbers, id="table_days",striped=True), no_update, no_update
 
 
 @callback(
@@ -187,8 +175,9 @@ def save_config_to_file(click_save,click_dismiss, api, email_from_input, email_t
 
 def create_app():
     application = Dash(__name__, title="EffiClean")
-    application.layout = get_app_layout(application)
     set_or_load_config()
+    set_or_load_app_config()
+    application.layout = get_app_layout(application)
     return application
 
 

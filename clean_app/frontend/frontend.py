@@ -10,12 +10,16 @@ matplotlib.use('Agg')
 import datetime
 from datetime import datetime, timedelta
 import plotly.express as px
+from clean_app.backend.backend import get_app_config, get_config, get_texts
+import pandas as pd
 from dash_bootstrap_templates import load_figure_template
 load_figure_template("vapor")
 
 
+
 # region Graphics
 def create_figure(start, end, all_appointments, cleaning_schedule, subset):
+    texts = get_texts()
     k = all_appointments
     if subset:
         k = k[k["apartment"].isin(subset)]
@@ -67,15 +71,13 @@ def create_figure(start, end, all_appointments, cleaning_schedule, subset):
     end_i = ".".join(end.split("-")[::-1])
     fig.update_layout(
 
-        yaxis=dict(color="white",rangemode="tozero", tickmode='array', autorange="min", title="Apartment", ticklabelstandoff=5,
-                   tickvals=["Schanzenblick (Suite)", "Pastorensuite (Suite)", "Heidewitzka (Loft)"],
-                   ticktext=["Schanzenblick<br>(Suite)", "Pastorensuite<br>(Suite)", "Heidewitzka<br>(Loft)"]),
-        xaxis=dict(color="white",title="Datum", ticklabelposition="outside right", tickformat="%e\n%B", dtick="1d", ticks="inside",
+        yaxis=dict(color="white",rangemode="tozero", tickmode='array', autorange="min", title=texts["g_y_label"], ticklabelstandoff=5,),
+        xaxis=dict(color="white",title=texts["g_x_label"], ticklabelposition="outside right", tickformat="%e\n%B", dtick="1d", ticks="inside",
                    ticklabelshift=15, ticklabelstandoff=2, tickwidth=0.5,tickangle=0, range = (start,end)),
-        title=f"Reinigungsplan von {start_i} bis {end_i}",
+        title=texts["g_title"].replace("[START]",start_i).replace("[END]",end_i),
     )
     fig.update_legends(
-        title_text="Gleichzeitig zu reinigende Apartments",
+        title_text=texts["g_legend"],
         orientation="h",
         yanchor="bottom",
         y=1,
@@ -83,6 +85,10 @@ def create_figure(start, end, all_appointments, cleaning_schedule, subset):
         x=1
     )
     return fig
+
+# endregion
+
+# region Table
 
 
 # endregion

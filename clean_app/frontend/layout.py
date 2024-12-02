@@ -1,21 +1,21 @@
 from datetime import datetime, timedelta
 
 import dash_bootstrap_components as dbc
-from dash import dcc, dash_table, html
+from dash import dcc, html
 
-APP = {"app": None}
-
-
-
-
+from clean_app.backend.backend import get_config, get_app_config, get_texts
+from clean_app.backend.mail import send_mail
 
 
 def get_layout(app):
-    #region header
+    app_c = get_app_config()
+    texts = get_texts()
+
+    # region header
     header = dbc.Row([
         dbc.Col([
             html.Div(
-                html.Img(src=app.get_asset_url(path="customer.png"), style={"width":"60%"}, className=".img-fluid"),
+                html.Img(src=app.get_asset_url(path="customer.png"), style={"width": "60%"}, className=".img-fluid"),
                 className="text-center",
             ),
         ],
@@ -23,7 +23,7 @@ def get_layout(app):
             className="allign-self-start",
         ),
         dbc.Col([
-            html.H2("EffiClean Reinigungsplaner", id="headerText",className="text-center"),
+            html.H2(texts["headline"], id="headerText", className="text-center"),
 
         ],
             width="6",
@@ -31,7 +31,7 @@ def get_layout(app):
         ),
         dbc.Col([
             html.Div(
-                html.Img(src=app.get_asset_url(path="zeitgeist.png"), style={"width":"60%"}, className=".img-fluid"),
+                html.Img(src=app.get_asset_url(path="zeitgeist.png"), style={"width": "60%"}, className=".img-fluid"),
                 className="text-center",
             ),
         ],
@@ -40,14 +40,14 @@ def get_layout(app):
         ),
     ],
         className="align-items-center",
-        style={"padding-top":"0.5%"}
+        style={"padding-top": "0.5%"}
     )
-    #endregion
+    # endregion
 
     # region controls
     controls = dbc.Row([
         dbc.Col([
-            html.Span("Gewünschten Zeitraum auswählen:",style={"padding-right":"5%"}),
+            html.Span(texts["date_selector_text"], style={"padding-right": "5%"}),
             dcc.DatePickerRange(
                 id="date_picker",
                 display_format="DD.MM.YYYY",
@@ -55,21 +55,20 @@ def get_layout(app):
                 initial_visible_month=datetime.today(),
                 min_date_allowed=datetime.today(),
                 start_date=datetime.today(),
-                end_date=datetime.today() + timedelta(days=9)
+                end_date=datetime.today() + timedelta(days=app_c["day_offset"])
             )
         ],
             width="8"
         ),
         dbc.Col([
-            dbc.Button("Download PDF", id="btn_download"),
+            dbc.Button(texts["download_pdf"], id="btn_download"),
             dcc.Download(id="down"),
-            dbc.Button(html.A("Versand via Mail", href="mailto:?subject=KWXX%3A%20Neuer%20Putzplan&body=Guten%20Tag%2C%20%0D%0A%0D%0Awie%20besprochen%20finden%20Sie%20anbei%20den%20Putzplan%20f%C3%BCr%20die%20KW%20XX.%20Falls%20%C3%84nderungen%20anfallen%2C%20melden%20wir%20uns%20unter%20dem%20selben%20Betreff%20bei%20Ihnen.%20%0D%0AViele%20Gr%C3%BC%C3%9Fe%2C%20%0D%0AIhr%20Vitihof%20Service%20Team"
-                              ,id="mailhack"), id="btn_mail", disabled=False),
+            dbc.Button(texts["send_mail"], id="btn_mail", disabled=False),
         ],
             width="3"
         ),
         dbc.Col([
-            dbc.Button("Einstellungen", id="open-sm"),
+            dbc.Button(texts["settings"], id="open-sm"),
         ],
             width="1"
         )
@@ -80,17 +79,18 @@ def get_layout(app):
 
     apartment_selector = dbc.Row([
         dbc.Col([
-            dcc.Dropdown([], searchable=False, multi=True, placeholder="Apartments filtern", id="apartment_selector"),
+            dcc.Dropdown([], searchable=False, multi=True, placeholder=texts["apartment_filter_placeholder"],
+                         id="apartment_selector"),
 
         ], width="7", className="dash-bootstrap"),
 
         dbc.Col(width="1"),
         dbc.Col([
-            html.Span("Max Tage"),
-            dbc.Input(value=99,id="max_days_picker",placeholder="Tage", min=0,type="number")
-        ],width="2"),
+            html.Span(texts["max_days_label"]),
+            dbc.Input(value=app_c["max_days"], id="max_days_picker", placeholder=texts["max_days_placeholder"], min=0, type="number")
+        ], width="2"),
         dbc.Col([
-            dbc.Button("Aktualisieren", id="apartment_selector_confirm"),
+            dbc.Button(texts["apply_filters"], id="apartment_selector_confirm"),
 
         ], width="1", className="dash-bootstrap"),
         dbc.Col(width="1"),
@@ -104,39 +104,39 @@ def get_layout(app):
     api_input = dbc.FormFloating(
         [
             dbc.Input(type="text", id="api_input"),
-            dbc.Label("smoodu API Schlüssel"),
+            dbc.Label(texts["smoodu_api"]),
         ]
     )
     email_input = html.Div([
         dbc.FormFloating(
             [
                 dbc.Input(type="email", id="email_from_input"),
-                dbc.Label("Mail Absender Adresse"),
+                dbc.Label(texts["mail_from"]),
             ]),
         dbc.FormFloating(
             [
                 dbc.Input(type="text", id="email_to_input"),
-                dbc.Label("Mail Empfänger Adresse(n) (durch Komma trennen)"),
+                dbc.Label(texts["mail_from"]),
             ]),
         dbc.FormFloating(
             [
                 dbc.Input(type="text", id="email_cc_input"),
-                dbc.Label("Mail CC Adresse(n) (durch Komma trennen)"),
+                dbc.Label(texts["mail_to"]),
             ]),
         dbc.FormFloating(
             [
                 dbc.Input(type="text", id="email_subject_input"),
-                dbc.Label("Betreff der Mail"),
+                dbc.Label(texts["mail_subject"]),
             ]),
         dbc.FormFloating(
             [
                 dbc.Textarea(id="email_message_input"),
-                dbc.Label("(HTML / Text) Inhalt der Mail"),
+                dbc.Label(texts["mail_message"]),
             ]),
         dbc.FormFloating(
             [
                 dbc.Textarea(id="email_template_input"),
-                dbc.Label("(HTML / Text) Teplate der Mail. Muss [!MESSAGE!] beinhalten"),
+                dbc.Label(texts["mail_template"]),
             ]),
     ]
     )
@@ -145,22 +145,22 @@ def get_layout(app):
         dbc.FormFloating(
             [
                 dbc.Input(type="text", id="email_server_input"),
-                dbc.Label("Mail Server Adresse"),
+                dbc.Label(texts["mail_server_adress"]),
             ]),
         dbc.FormFloating(
             [
                 dbc.Input(type="number", id="email_port_input"),
-                dbc.Label("Port des Mail Servers (587)"),
+                dbc.Label(texts["mail_server-port"]),
             ]),
         dbc.FormFloating(
             [
                 dbc.Input(type="text", id="email_username_input"),
-                dbc.Label("Mail Username"),
+                dbc.Label(texts["mail_server-username"]),
             ]),
         dbc.FormFloating(
             [
                 dbc.Input(type="password", id="email_password_input"),
-                dbc.Label("Mail Passwort"),
+                dbc.Label(texts["mail_server-password"]),
             ])
     ]
     )
@@ -168,11 +168,11 @@ def get_layout(app):
     accordion = dbc.Accordion(
         [
             dbc.AccordionItem(api_input,
-                              title="Integrationen"),
+                              title=texts["settings_integrations"]),
             dbc.AccordionItem(email_input,
-                              title="Mail"),
+                              title=texts["settings_sharing"]),
             dbc.AccordionItem(server_input,
-                              title="Mail-Server")
+                              title=texts["settings_mail-server"])
         ],
     )
 
@@ -181,52 +181,51 @@ def get_layout(app):
 
     # region pop-ups
     toast = dbc.Toast(
-            "This toast is placed in the top right",
-            id="alert",
-            header="Problem erkannt:",
-            is_open=False,
-            duration=5000,
-            icon="danger"
-        )
+        "This toast is placed in the top right",
+        id="alert",
+        header="Problem erkannt:",
+        is_open=False,
+        duration=5000,
+        icon="danger"
+    )
     modal = dbc.Modal([
-                dbc.ModalHeader(dbc.ModalTitle("Einstellungen")),
-                dbc.ModalBody(
-                    form
-                ),
-                dbc.ModalFooter([
-                    dbc.Button("Save", id="btn-config-close-save"),
-                    dbc.Button("Dismiss", id="btn-config-close-dismiss"),
-                ]),
-                ],
-                id="config-modal",
-                size="lg",
-                keyboard=False,
-                backdrop="static",
-                is_open=False
-        )
-    #endregion
+        dbc.ModalHeader(dbc.ModalTitle(texts["settings"])),
+        dbc.ModalBody(
+            form
+        ),
+        dbc.ModalFooter([
+            dbc.Button(texts["settings_save"], id="btn-config-close-save"),
+            dbc.Button(texts["settings_dismiss"], id="btn-config-close-dismiss"),
+        ]),
+    ],
+        id="config-modal",
+        size="lg",
+        keyboard=False,
+        backdrop="static",
+        is_open=False
+    )
+    # endregion
 
-    #region content
+    # region content
     content_fig = dbc.Row([
-            dbc.Col([
-                dbc.Spinner(
-                    delay_hide=300,
-                    id="figcontainer",
-                )
-            ], width="12")
+        dbc.Col([
+            dbc.Spinner(
+                delay_hide=300,
+                id="figcontainer",
+            )
+        ], width="12")
     ])
 
     content_table = dbc.Row([
-            dbc.Col([
-                dbc.Spinner(
-                    delay_hide=500,
-                    id="table_loader"
-                )
-            ], width="12")
+        dbc.Col([
+            dbc.Spinner(
+                delay_hide=500,
+                id="table_loader"
+            )
+        ], width="12")
     ])
 
-
-    #endregion
+    # endregion
     layout = [
         dbc.Container([
             header,
@@ -237,7 +236,7 @@ def get_layout(app):
             content_fig,
             html.Br(),
             content_table
-        ],className="dbc"
+        ], className="dbc"
         )
     ]
     return layout
