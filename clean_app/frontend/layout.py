@@ -3,21 +3,16 @@ from datetime import datetime, timedelta
 import dash_bootstrap_components as dbc
 from dash import dcc, html
 
-from clean_app.backend.backend import get_config, get_app_config, get_texts
-from clean_app.backend.mail import send_mail
+from clean_app.backend.backend import get_config, get_texts
 
 
 def get_layout(app):
-    app_c = get_app_config()
+    config = get_config()
     texts = get_texts()
 
     # region header
     header = dbc.Row([
         dbc.Col([
-            html.Div(
-                html.Img(src=app.get_asset_url(path="customer.png"), style={"width": "60%"}, className=".img-fluid"),
-                className="text-center",
-            ),
         ],
             width="3",
             className="allign-self-start",
@@ -30,10 +25,7 @@ def get_layout(app):
             className="allign-self-center",
         ),
         dbc.Col([
-            html.Div(
-                html.Img(src=app.get_asset_url(path="zeitgeist.png"), style={"width": "60%"}, className=".img-fluid"),
-                className="text-center",
-            ),
+
         ],
             width="3",
             className="allign-self-end",
@@ -55,7 +47,7 @@ def get_layout(app):
                 initial_visible_month=datetime.today(),
                 min_date_allowed=datetime.today(),
                 start_date=datetime.today(),
-                end_date=datetime.today() + timedelta(days=app_c["day_offset"])
+                end_date=datetime.today() + timedelta(days=config["DAYS_OFFSET"])
             )
         ],
             width="8"
@@ -87,7 +79,7 @@ def get_layout(app):
         dbc.Col(width="1"),
         dbc.Col([
             html.Span(texts["max_days_label"]),
-            dbc.Input(value=app_c["max_days"], id="max_days_picker", placeholder=texts["max_days_placeholder"], min=0, type="number")
+            dbc.Input(value=config["MAX_DAYS"], id="max_days_picker", placeholder=texts["max_days_placeholder"], min=0, type="number")
         ], width="2"),
         dbc.Col([
             dbc.Button(texts["apply_filters"], id="apartment_selector_confirm"),
@@ -101,6 +93,28 @@ def get_layout(app):
     # endregion
 
     # region config_popup
+    app_settings = html.Div([
+        dbc.FormFloating(
+            [
+                dbc.Input(type="number", id="default_max_days"),
+                dbc.Label(texts["app_default_max_days"]),
+            ]
+        ),
+        dbc.Form([
+            dbc.Label(texts["app_language_selector"]),
+            dbc.Select(["deutsch", "english"],id="language_selector"),
+            ]
+        ),
+        dbc.FormFloating(
+            [
+                dbc.Input(type="number", id="default_date_offset"),
+                dbc.Label(texts["app_initial_date_offset"]),
+            ]
+        ),
+
+        ]
+    )
+
     api_input = dbc.FormFloating(
         [
             dbc.Input(type="text", id="api_input"),
@@ -167,6 +181,8 @@ def get_layout(app):
 
     accordion = dbc.Accordion(
         [
+            dbc.AccordionItem(app_settings,
+                              title=texts["settings_app"]),
             dbc.AccordionItem(api_input,
                               title=texts["settings_integrations"]),
             dbc.AccordionItem(email_input,
@@ -174,6 +190,7 @@ def get_layout(app):
             dbc.AccordionItem(server_input,
                               title=texts["settings_mail-server"])
         ],
+        className="accordion_settings"
     )
 
     form = dbc.FormFloating([accordion])
@@ -224,7 +241,17 @@ def get_layout(app):
             )
         ], width="12")
     ])
+    #endregion
+    #region footer
 
+    footer = dbc.Row([
+        dbc.Col([],width = 2),
+        dbc.Col([texts["version"], ], className="text-center",width = 4),
+        dbc.Col([html.A(texts["github"], href="https://github.com/smoky1337/efficlean")], className="text-center",width = 4),
+        dbc.Col([], width = 2),
+    ],
+    style={"position" :"absolute", "bottom" : "0px", "height" : "3%","width" : "100%"},
+        className="align-items-center text-center justify-content-between")
     # endregion
     layout = [
         dbc.Container([
@@ -235,7 +262,8 @@ def get_layout(app):
             apartment_selector,
             content_fig,
             html.Br(),
-            content_table
+            content_table,
+            footer
         ], className="dbc"
         )
     ]

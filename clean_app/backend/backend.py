@@ -3,6 +3,7 @@ import os
 from math import expm1
 
 import matplotlib.backends.backend_pdf
+import numpy as np
 import pandas as pd
 import requests
 
@@ -101,11 +102,18 @@ def prepare_df(df):
     - DataFrame: A cleaned DataFrame with unique guest bookings and adjusted arrival and departure times.
     """
 
-    relevant_columns = ["guestId", "type", "apartment", "modifiedAt", "adults", "children", "arrival", "departure"]
+    relevant_columns = ["guestId", "type", "apartment", "modifiedAt", "adults", "children", "arrival", "departure",
+                        "channel"]
     rdf = df[relevant_columns]
+    rdf["channel"] = rdf["channel"].apply(lambda x: x["name"])
+    rdf["adults"] = rdf["adults"].fillna(-1)
+    rdf = rdf.fillna(value=0)
     rdf = rdf.dropna(subset=["guestId"])
     rdf.loc[:, "apartment"] = rdf["apartment"].apply(lambda x: x["name"])
-    rdf_unique = rdf.sort_values(['guestId', 'modifiedAt']).drop_duplicates(subset=['guestId'], keep='last')
+    blocked = rdf[rdf["channel"] == "Blocked channel"]
+    rdf.drop(blocked.index, inplace=True)
+    rdf_unique = rdf.sort_values(['guestId', 'modifiedAt']).drop_duplicates(['guestId'], keep='last')
+    rdf_unique = pd.concat([rdf_unique, blocked]).sort_values(['guestId', 'modifiedAt'])
 
     # add datetime:
     rdf_unique['arrival'] = pd.to_datetime(rdf_unique['arrival'])
@@ -156,9 +164,12 @@ def prepare_cleaning_df(bookings, cleaning):
 
 
 def combine_dfs(bookings, cleaning):
-    dfa = bookings[["arrival", "departure", "apartment", "adults", "children"]]
-    dfa["type"] = "booking"
+    dfa = bookings[["arrival", "departure", "apartment", "adults", "children", "channel"]]
+    dfa["blocker"] = dfa["channel"] == "Blocked channel"
+    dfa["type"] = np.where(dfa["channel"] == "Blocked channel", "blocker", "booking")
     df_new = pd.concat([dfa, cleaning]).fillna("")
+
+
     df_new.sort_values("arrival", inplace=True)
     return df_new
 
@@ -215,23 +226,32 @@ def return_best_cleaning_days(df, max_days_uncleaned):
         for i in range(len(apartment_bookings)):
             # Get departure date of current booking
             departure_date = apartment_bookings.iloc[i]['departure'].date()
-            # Get arrival date of next booking (if any)
-            try:
-                arrival_date = apartment_bookings.iloc[i + 1]['arrival'].date()
-            except IndexError:
-                arrival_date = date_range[-1].date() + pd.Timedelta(days=1)  # End of date range
 
+            # Get arrival date and departure date of next booking (if any)
+            try:
+                next_arrival_date = apartment_bookings.iloc[i + 1]['arrival'].date()
+                next_departure_date = apartment_bookings.iloc[i + 1]['departure'].date()
+
+                nextIsBlocked = apartment_bookings.iloc[i + 1]['channel'] == "Blocked channel"
+
+            except IndexError:
+                next_arrival_date = date_range[-1].date() + pd.Timedelta(days=1)  # End of date range
+                next_departure_date = next_arrival_date + pd.Timedelta(days=1)
+                nextIsBlocked = False
+
+            if nextIsBlocked:
+                continue
             # Check if arrival date is longer than max days without clean
-            if (arrival_date-departure_date).days > max_days_uncleaned:
+            if (next_arrival_date-departure_date).days > max_days_uncleaned:
                 arrival_date = departure_date + pd.Timedelta(max_days_uncleaned)
 
             # Find the best cleaning day within the available window
             cleaning_day = departure_date  # Default to departure date
             # If there's a gap between bookings, find the day with the most free apartments
-            if departure_date <= arrival_date:
+            if departure_date <= next_arrival_date:
                 max_free_apartments = 0
                 best_cleaning_day = None
-                for day in pd.date_range(departure_date, arrival_date):
+                for day in pd.date_range(departure_date, next_arrival_date):
                     occupied_apartments = set()
                     for index, row in df.iterrows():
                         if row['arrival'].date() < day.date() < row['departure'].date():
@@ -356,7 +376,7 @@ def create_pdf(fig, table):
 
 
 # region userconfig
-def set_config(config_dict):
+def save_config(config_dict):
     global USER_CONFIG
     USER_CONFIG = config_dict
     with open(os.path.join("configs", "user_config.json"), "w", encoding="utf-8") as f:
@@ -364,6 +384,13 @@ def set_config(config_dict):
 
 def get_config():
     return USER_CONFIG
+
+def update_config_value(key, value):
+    global USER_CONFIG
+    try:
+        USER_CONFIG[key] = value
+    except KeyError as e:
+        print(e)
 
 def set_or_load_config():
     try:
@@ -388,7 +415,7 @@ def get_app_config():
 
 def get_texts():
     try:
-        return APP_CONFIG["language"][get_config()["language"]]
+        return APP_CONFIG["language"][get_config()["LANGUAGE"]]
     except KeyError:
         return APP_CONFIG["language"]["english"]
 

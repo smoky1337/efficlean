@@ -1,6 +1,6 @@
 {
   "language": {
-    "german": {
+    "deutsch": {
       "headline": "EffiClean Reinigungsplaner",
       "date_selector_text": "Gewünschten Zeitraum auswählen:",
       "download_pdf": "Download PDF",
@@ -10,6 +10,11 @@
       "max_days_label": "Max. Tage",
       "max_days_placeholder": "Tage",
       "apply_filters": "Aktualisieren",
+      "settings_app": "Allgemeine Einstellungen",
+      "app_default_max_days": "Voreinstellung Max Tage vor Reinigung",
+      "app_language_selector": "Benutzersprache",
+      "app_initial_date_offset": "Voreinstlellung Planungszeit in Tagen",
+
       "settings_integrations": "Integrationen",
       "smoodu_api": "Smoodu API-Schlüssel",
       "settings_sharing": "Kommunikation",
@@ -26,14 +31,19 @@
       "mail_server-password": "Passwort",
       "settings_save": "Speichern",
       "settings_dismiss": "Verwerfen",
-      "g_title": "Reinigungsplan von [START] bis [ENDE]",
+      "g_title": "Reinigungsplan von [START] bis [END]",
       "g_legend": "Gleichzeitig zu reinigende Apartmetns",
       "g_y_label": "Apartment",
       "g_x_label": "Datum",
+      "g_data_label_blocker": "Blocker",
       "t_date": "Datum",
-      "t_clean_indicator": "Reinigung für [PEOPLE] Personen)",
+      "t_clean_indicator": "Reinigung für [PEOPLE] Gäste",
+      "t_clean_unknown": "Reiginung für unbekannt # Gäste",
       "alert_header-succes": "Erfolg!",
-      "alert_header-failure": "Fehler!"
+      "alert_header-failure": "Fehler!",
+
+      "version": "EffiClean Version 0.1",
+      "github": "Selber auf GitHub ausprobieren"
     },
     "english": {
       "headline": "EffiClean Cleaning Scheduler",
@@ -45,6 +55,10 @@
       "max_days_label": "Max. days",
       "max_days_placeholder": "Days",
       "apply_filters": "Apply",
+      "settings_app": "General settings",
+      "app_default_max_days": "Default max number of days without cleaning",
+      "app_language_selector": "User interface language",
+      "app_initial_date_offset": "Default date offset in days",
       "settings_integrations": "Integrations",
       "smoodu_api": "Smoodu API key",
       "settings_sharing": "Communication",
@@ -61,17 +75,22 @@
       "mail_server-password": "Password",
       "settings_save": "Save",
       "settings_dismiss": "Dismiss",
-      "g_title": "Cleaning schedule starting [START] until [ENDE]",
+      "g_title": "Cleaning schedule starting [START] until [END]",
       "g_legend": "Number of available apartments",
       "g_y_label": "Apartment",
       "g_x_label": "Date",
+      "g_data_label_blocker": "Blocked",
       "t_date": "Date",
-      "t_clean_indicator": "Cleaning for [PEOPLE] people)",
+      "t_clean_indicator": "Cleaning for [PEOPLE] guest(s)",
+      "t_clean_unknown": "Cleaning for unknown # of guest(s)",
+
       "alert_header-succes": "Success!",
-      "alert_header-failure": "Error!"
+      "alert_header-failure": "Error!",
+
+      "version": "EffiClean Version 0.1",
+      "github": "Try it yourself on Github"
     }
-  },
-  "day_offset": 9,
-  "max_days": 99
+  }
+
 
 }

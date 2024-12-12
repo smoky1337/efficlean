@@ -12661,3 +12661,8 @@ legend {
 .Select-value-label {
   color: #fff
 }
+.accordion_settings input,
+.accordion_settings textarea,
+.accordion_settings select {
+  margin-bottom: 1%;
+}

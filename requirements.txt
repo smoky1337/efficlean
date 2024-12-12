@@ -9,3 +9,4 @@ click~=8.1.7
 gunicorn
 dash_bootstrap_templates
 kaleido
+numpy

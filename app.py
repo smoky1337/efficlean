@@ -6,14 +6,15 @@ warnings.filterwarnings("ignore")
 import dash
 from dash import Dash, dcc, callback, Output, Input, no_update, State, set_props, html,clientside_callback
 from clean_app.backend.backend import get_bookings_in_interval, create_dfs, create_pdf, set_or_load_config, \
-    get_config, set_config, set_or_load_app_config
+    get_config, save_config, set_or_load_app_config
 import clean_app.backend.mail as mail
-from clean_app.frontend.frontend import create_figure, get_app_layout
+from clean_app.frontend.frontend import create_figure, get_app_layout, reload_layout
 import dash_bootstrap_components as dbc
 
 
 PreviousFigure = None
 PreviousTable = None
+app = None
 
 @callback(
     Output(component_id='figcontainer', component_property='children'),
@@ -56,7 +57,11 @@ def update_graph(end, n_clicks, start,max_days_uncleaned,subset):
 
 @callback(
     [Output("config-modal", "is_open",allow_duplicate=True),
-    Output(component_id="api_input", component_property='value'),
+     Output(component_id="default_max_days", component_property='value'),
+     Output(component_id="language_selector", component_property='value'),
+     Output(component_id="default_date_offset", component_property='value'),
+
+     Output(component_id="api_input", component_property='value'),
     Output(component_id="email_from_input", component_property='value'),
     Output(component_id="email_to_input", component_property='value'),
     Output(component_id="email_cc_input", component_property='value'),
@@ -75,14 +80,21 @@ def toggle_modal(n_clicks):
     try:
         if n_clicks:
             cfg = get_config()
-            rt = [True, cfg["SMOODU-API-KEY"]]
+            rt = [
+                True,
+                cfg["MAX_DAYS"],
+                cfg["LANGUAGE"],
+                cfg["DAYS_OFFSET"],
+                cfg["SMOODU-API-KEY"]
+            ]
             for k in cfg["EMAIL"].keys():
                 rt.append(cfg["EMAIL"][k])
             return (*rt,)
         else:
-            return [dash.no_update] * 12
-    except KeyError:
-        rt = [dash.no_update] * 12
+            return [dash.no_update] * 15
+    except KeyError as e:
+        print(e)
+        rt = [dash.no_update] * 15
         rt[0] = True
         return rt
 
@@ -131,7 +143,9 @@ def send_mail(n_clicks,start,end):
     Output(component_id="config-modal", component_property='is_open', allow_duplicate=True),
     Input(component_id="btn-config-close-save", component_property='n_clicks'),
     Input(component_id="btn-config-close-dismiss", component_property='n_clicks'),
-
+    State(component_id="default_max_days", component_property='value'),
+    State(component_id="language_selector", component_property='value'),
+    State(component_id="default_date_offset", component_property='value'),
     State(component_id="api_input", component_property='value'),
     State(component_id="email_from_input", component_property='value'),
     State(component_id="email_to_input", component_property='value'),
@@ -147,12 +161,15 @@ def send_mail(n_clicks,start,end):
     prevent_initial_callbacks=True,
     prevent_initial_call=True
 )
-def save_config_to_file(click_save,click_dismiss, api, email_from_input, email_to_input, email_cc_input,
+def save_config_to_file(click_save,click_dismiss, max_days, language, day_offset, api, email_from_input, email_to_input, email_cc_input,
                         email_subject_input, email_message_input,email_template_input, email_server_input,
                         email_port_input, email_username, email_password):
     if click_save:
         config = dict()
         config["EMAIL"] = dict()
+        config["MAX_DAYS"] = max_days
+        config["LANGUAGE"] = language
+        config["DAYS_OFFSET"] = day_offset
         config["SMOODU-API-KEY"] = api
         config["EMAIL"]["FROM"] = email_from_input
         config["EMAIL"]["TO"] = email_to_input
@@ -164,7 +181,7 @@ def save_config_to_file(click_save,click_dismiss, api, email_from_input, email_t
         config["EMAIL"]["PORT"] = email_port_input
         config["EMAIL"]["USERNAME"] = email_username
         config["EMAIL"]["PASSWORD"] = email_password
-        set_config(config)
+        save_config(config)
 
     return False
 

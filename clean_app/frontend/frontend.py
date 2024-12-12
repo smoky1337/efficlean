@@ -10,7 +10,7 @@ matplotlib.use('Agg')
 import datetime
 from datetime import datetime, timedelta
 import plotly.express as px
-from clean_app.backend.backend import get_app_config, get_config, get_texts
+from clean_app.backend.backend import get_app_config, get_config, get_texts, set_or_load_app_config
 import pandas as pd
 from dash_bootstrap_templates import load_figure_template
 load_figure_template("vapor")
@@ -41,13 +41,16 @@ def create_figure(start, end, all_appointments, cleaning_schedule, subset):
         hover_data={}
     )
     for _, r in k.iterrows():
-        if r["type"] == "booking":
+        if r["type"] == "booking" or r["type"] == "blocker":
             x_pos = datetime.fromisoformat(r["arrival"]) + (
                     datetime.fromisoformat(r["departure"]) - datetime.fromisoformat(r["arrival"])) / 2
+            if r["type"] == "blocker":
+                text = texts["g_data_label_blocker"]
+            else:
+                text = str(int(float(r["adults"]))) + " P"
+                if float(r["children"]) != 0:
+                    text += " +<br>" + str(int(float(r["children"]))) + " K"
 
-            text = str(int(float(r["adults"]))) + " P"
-            if float(r["children"]) != 0:
-                text += " +<br>" + str(int(float(r["children"]))) + " K"
             fig.add_annotation(
                 x=x_pos,
                 y=r["apartment"],
@@ -98,6 +101,8 @@ def open_browser():
     if not os.environ.get("WERKZEUG_RUN_MAIN"):
         webbrowser.open_new('http://127.0.0.1:1222/')
 
+def reload_layout(app):
+    app.layout = get_layout(app)
 
 
 
