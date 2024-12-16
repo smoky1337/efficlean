@@ -2,6 +2,8 @@
 
 Welcome to EffiClean, a lightweight tool designed to help property managers and cleaning teams efficiently schedule cleaning tasks for short-term rental properties. This tool currently integrates with **Smoobu**, a popular booking management system, to generate optimized cleaning schedules and ensure a seamless guest experience.
 
+![EffiClean UI](/efficlean1.png)
+
 ## **Project Goals**
 
 EffiClean simplifies the planning and execution of cleaning schedules by:
@@ -9,7 +11,7 @@ EffiClean simplifies the planning and execution of cleaning schedules by:
 2. **Streamlining Communication**: Provides cleaning staff with clear, detailed schedules with all nescessary information.
 3. **Customizable Options**:
    - Adjust the maximum number of uncleaned days.
-   - Filter specific subsets of apartments
+   - Filter specific subsets of apartments.
 4. **Guest Preparation Assistance**:
    - Displays the number of guests for the next booking, ensuring cleaning staff prepare the correct number of beds and amenities.
 
