@@ -38,7 +38,7 @@ EffiClean simplifies the planning and execution of cleaning schedules by:
 ## **Getting Started**
 
 First, you need to generate an API key for Smoodu. Further information can be found here [link to smoodu].
-You can build the app yourself to run locally or use the Dockerfile to run it on a server of your choice.  
+You can build the app yourself to run locally or use the Dockerfile to run it on a server / docker provider of your choice.  
 
 1. Clone this repository
 ```bash
@@ -51,7 +51,7 @@ Efficlean is build on Python 3.9, but there should be no issues using any newer 
   cd cleaning-plan-optimizer
   pip install -r requirements.txt
 ```
-3. Configure `config.json` by editing `config_template.json` and saving it with your API-Key  
+3. Create `config.json` by editing `config_template.json` and saving it  as `config.json` with your API-Key  
 
 
 4. Test the application by using

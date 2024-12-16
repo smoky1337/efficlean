@@ -82,9 +82,10 @@ def get_bookings_in_interval(start, end):
 
     except AssertionError as e:
         print(e)
-        return e
+        df = pd.read_json("test_file.json")
+        return df
 
-    return pd.DataFrame.from_records(data.json()["bookings"])
+    return df
 
 
 # endregion
@@ -101,9 +102,8 @@ def prepare_df(df):
     Returns:
     - DataFrame: A cleaned DataFrame with unique guest bookings and adjusted arrival and departure times.
     """
-
     relevant_columns = ["guestId", "type", "apartment", "modifiedAt", "adults", "children", "arrival", "departure",
-                        "channel"]
+                        "channel", "check-in", "check-out"]
     rdf = df[relevant_columns]
     rdf["channel"] = rdf["channel"].apply(lambda x: x["name"])
     rdf["adults"] = rdf["adults"].fillna(-1)
@@ -119,8 +119,8 @@ def prepare_df(df):
     rdf_unique['arrival'] = pd.to_datetime(rdf_unique['arrival'])
     rdf_unique['departure'] = pd.to_datetime(rdf_unique['departure'])
 
-    rdf_unique['arrival'] = rdf_unique['arrival'] + pd.to_timedelta('15:00:00')
-    rdf_unique['departure'] = rdf_unique['departure'] + pd.to_timedelta('10:00:00')
+    rdf_unique['arrival'] = rdf_unique['arrival'] + pd.to_timedelta(rdf_unique["check-in"] + ":00")
+    rdf_unique['departure'] = rdf_unique['departure'] + pd.to_timedelta(rdf_unique["check-out"] + ":00")
     return rdf_unique
 
 
@@ -135,14 +135,16 @@ def prepare_cleaning_df(bookings, cleaning):
     Returns:
     - DataFrame: A schedule DataFrame including cleaning types and times.
     """
+    checkout = str(bookings["check-out"].values[0]) + ":00"
+    checkin = str(bookings["check-in"].values[0]) + ":00"
     cleaning_schedule = pd.DataFrame(
         pd.date_range(bookings['arrival'].min().date(), bookings['departure'].max().date()), columns=['date'])
     for apartment, days in cleaning.items():
         cleaning_schedule[apartment] = cleaning_schedule['date'].isin(days)
     cleaning_schedule["Number of Apartments"] = cleaning_schedule[cleaning.keys()].sum(axis=1)
     cleaning_schedule = cleaning_schedule[cleaning_schedule["Number of Apartments"] > 0]
-    cleaning_schedule["arrival"] = cleaning_schedule["date"] + pd.to_timedelta('10:00:00')
-    cleaning_schedule["departure"] = cleaning_schedule["date"] + pd.to_timedelta('15:00:00')
+    cleaning_schedule["arrival"] = cleaning_schedule["date"] + pd.to_timedelta(checkout)
+    cleaning_schedule["departure"] = cleaning_schedule["date"] + pd.to_timedelta(checkin)
 
     new_rows = []
     possible_cols = list(cleaning.keys())

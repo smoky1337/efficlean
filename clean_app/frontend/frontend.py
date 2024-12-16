@@ -74,7 +74,8 @@ def create_figure(start, end, all_appointments, cleaning_schedule, subset):
     end_i = ".".join(end.split("-")[::-1])
     fig.update_layout(
 
-        yaxis=dict(color="white",rangemode="tozero", tickmode='array', autorange="min", title=texts["g_y_label"], ticklabelstandoff=5,),
+        yaxis=dict(color="white",rangemode="tozero", tickmode='array', autorange="min", title=texts["g_y_label"], ticklabelstandoff=20,
+                   ),
         xaxis=dict(color="white",title=texts["g_x_label"], ticklabelposition="outside right", tickformat="%e\n%B", dtick="1d", ticks="inside",
                    ticklabelshift=15, ticklabelstandoff=2, tickwidth=0.5,tickangle=0, range = (start,end)),
         title=texts["g_title"].replace("[START]",start_i).replace("[END]",end_i),
