@@ -1,0 +1,534 @@
+[
+    {
+        "id":80244293,
+        "reference-id":null,
+        "type":"modification of booking",
+        "arrival":"2024-12-14",
+        "departure":"2024-12-16",
+        "created-at":"2024-12-05 18:39",
+        "modifiedAt":"2024-12-09 23:16:26",
+        "apartment":{
+            "id":1789712,
+            "name":"Heidewitzka (Loft)"
+        },
+        "channel":{
+            "id":2541113,
+            "channel_id":11,
+            "name":"Blocked channel"
+        },
+        "adults":0.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"",
+        "is-blocked-booking":true,
+        "guestId":64864138.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":80439203,
+        "reference-id":null,
+        "type":"modification of booking",
+        "arrival":"2024-12-15",
+        "departure":"2024-12-16",
+        "created-at":"2024-12-08 11:57",
+        "modifiedAt":"2024-12-09 23:15:50",
+        "apartment":{
+            "id":1789715,
+            "name":"Pastorensuite (Suite)"
+        },
+        "channel":{
+            "id":2541113,
+            "channel_id":11,
+            "name":"Blocked channel"
+        },
+        "adults":null,
+        "children":null,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"",
+        "is-blocked-booking":true,
+        "guestId":64864083.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":80523838,
+        "reference-id":null,
+        "type":"reservation",
+        "arrival":"2024-12-15",
+        "departure":"2024-12-16",
+        "created-at":"2024-12-09 10:42",
+        "modifiedAt":"2024-12-09 10:42:44",
+        "apartment":{
+            "id":1789508,
+            "name":"Schanzenblick (Suite)"
+        },
+        "channel":{
+            "id":2541113,
+            "channel_id":11,
+            "name":"Blocked channel"
+        },
+        "adults":null,
+        "children":null,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"",
+        "is-blocked-booking":true,
+        "guestId":null,
+        "related":[
+
+        ]
+    },
+    {
+        "id":76861373,
+        "reference-id":null,
+        "type":"modification of booking",
+        "arrival":"2024-12-16",
+        "departure":"2024-12-19",
+        "created-at":"2024-10-29 17:45",
+        "modifiedAt":"2024-12-16 09:17:46",
+        "apartment":{
+            "id":1789508,
+            "name":"Schanzenblick (Suite)"
+        },
+        "channel":{
+            "id":2541119,
+            "channel_id":13,
+            "name":"Direct booking"
+        },
+        "adults":1.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"",
+        "is-blocked-booking":false,
+        "guestId":61837323.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":80614483,
+        "reference-id":"4426367930",
+        "type":"modification of booking",
+        "arrival":"2024-12-16",
+        "departure":"2024-12-19",
+        "created-at":"2024-12-10 09:50",
+        "modifiedAt":"2024-12-10 18:44:37",
+        "apartment":{
+            "id":1789715,
+            "name":"Pastorensuite (Suite)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":2.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":64879058.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":80844148,
+        "reference-id":"4583732175",
+        "type":"reservation",
+        "arrival":"2024-12-16",
+        "departure":"2024-12-19",
+        "created-at":"2024-12-12 20:46",
+        "modifiedAt":"2024-12-12 20:46:21",
+        "apartment":{
+            "id":1789712,
+            "name":"Heidewitzka (Loft)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":1.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":65064243.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":70250556,
+        "reference-id":"4826614604",
+        "type":"reservation",
+        "arrival":"2024-12-19",
+        "departure":"2024-12-22",
+        "created-at":"2024-08-24 16:28",
+        "modifiedAt":"2024-08-24 16:28:06",
+        "apartment":{
+            "id":1789508,
+            "name":"Schanzenblick (Suite)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":2.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":56413211.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":69807366,
+        "reference-id":"4813192799",
+        "type":"reservation",
+        "arrival":"2024-12-20",
+        "departure":"2024-12-22",
+        "created-at":"2024-08-20 08:15",
+        "modifiedAt":"2024-08-20 08:15:15",
+        "apartment":{
+            "id":1789715,
+            "name":"Pastorensuite (Suite)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":4.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":56048116.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":72491108,
+        "reference-id":"HMK8D4NSYQ",
+        "type":"reservation",
+        "arrival":"2024-12-20",
+        "departure":"2024-12-22",
+        "created-at":"2024-09-15 13:06",
+        "modifiedAt":"2024-09-15 13:06:21",
+        "apartment":{
+            "id":1789712,
+            "name":"Heidewitzka (Loft)"
+        },
+        "channel":{
+            "id":2551439,
+            "channel_id":74,
+            "name":"Airbnb"
+        },
+        "adults":2.0,
+        "children":1.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"nl",
+        "is-blocked-booking":false,
+        "guestId":58248603.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":50935313,
+        "reference-id":"4077712499",
+        "type":"reservation",
+        "arrival":"2024-12-22",
+        "departure":"2024-12-27",
+        "created-at":"2023-12-24 17:59",
+        "modifiedAt":"2023-12-24 17:59:12",
+        "apartment":{
+            "id":1789715,
+            "name":"Pastorensuite (Suite)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":2.0,
+        "children":1.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":40391240.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":79902658,
+        "reference-id":"4409847752",
+        "type":"reservation",
+        "arrival":"2024-12-23",
+        "departure":"2024-12-27",
+        "created-at":"2024-12-02 08:07",
+        "modifiedAt":"2024-12-02 08:07:13",
+        "apartment":{
+            "id":1789712,
+            "name":"Heidewitzka (Loft)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":1.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":64296488.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":76861373,
+        "reference-id":null,
+        "type":"modification of booking",
+        "arrival":"2024-12-16",
+        "departure":"2024-12-19",
+        "created-at":"2024-10-29 17:45",
+        "modifiedAt":"2024-12-16 09:17:46",
+        "apartment":{
+            "id":1789508,
+            "name":"Schanzenblick (Suite)"
+        },
+        "channel":{
+            "id":2541119,
+            "channel_id":13,
+            "name":"Direct booking"
+        },
+        "adults":1.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"",
+        "is-blocked-booking":false,
+        "guestId":61837323.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":80614483,
+        "reference-id":"4426367930",
+        "type":"modification of booking",
+        "arrival":"2024-12-16",
+        "departure":"2024-12-19",
+        "created-at":"2024-12-10 09:50",
+        "modifiedAt":"2024-12-10 18:44:37",
+        "apartment":{
+            "id":1789715,
+            "name":"Pastorensuite (Suite)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":2.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":64879058.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":80844148,
+        "reference-id":"4583732175",
+        "type":"reservation",
+        "arrival":"2024-12-16",
+        "departure":"2024-12-19",
+        "created-at":"2024-12-12 20:46",
+        "modifiedAt":"2024-12-12 20:46:21",
+        "apartment":{
+            "id":1789712,
+            "name":"Heidewitzka (Loft)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":1.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":65064243.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":70250556,
+        "reference-id":"4826614604",
+        "type":"reservation",
+        "arrival":"2024-12-19",
+        "departure":"2024-12-22",
+        "created-at":"2024-08-24 16:28",
+        "modifiedAt":"2024-08-24 16:28:06",
+        "apartment":{
+            "id":1789508,
+            "name":"Schanzenblick (Suite)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":2.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":56413211.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":69807366,
+        "reference-id":"4813192799",
+        "type":"reservation",
+        "arrival":"2024-12-20",
+        "departure":"2024-12-22",
+        "created-at":"2024-08-20 08:15",
+        "modifiedAt":"2024-08-20 08:15:15",
+        "apartment":{
+            "id":1789715,
+            "name":"Pastorensuite (Suite)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":4.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":56048116.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":72491108,
+        "reference-id":"HMK8D4NSYQ",
+        "type":"reservation",
+        "arrival":"2024-12-20",
+        "departure":"2024-12-22",
+        "created-at":"2024-09-15 13:06",
+        "modifiedAt":"2024-09-15 13:06:21",
+        "apartment":{
+            "id":1789712,
+            "name":"Heidewitzka (Loft)"
+        },
+        "channel":{
+            "id":2551439,
+            "channel_id":74,
+            "name":"Airbnb"
+        },
+        "adults":2.0,
+        "children":1.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"nl",
+        "is-blocked-booking":false,
+        "guestId":58248603.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":50935313,
+        "reference-id":"4077712499",
+        "type":"reservation",
+        "arrival":"2024-12-22",
+        "departure":"2024-12-27",
+        "created-at":"2023-12-24 17:59",
+        "modifiedAt":"2023-12-24 17:59:12",
+        "apartment":{
+            "id":1789715,
+            "name":"Pastorensuite (Suite)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":2.0,
+        "children":1.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":40391240.0,
+        "related":[
+
+        ]
+    },
+    {
+        "id":79902658,
+        "reference-id":"4409847752",
+        "type":"reservation",
+        "arrival":"2024-12-23",
+        "departure":"2024-12-27",
+        "created-at":"2024-12-02 08:07",
+        "modifiedAt":"2024-12-02 08:07:13",
+        "apartment":{
+            "id":1789712,
+            "name":"Heidewitzka (Loft)"
+        },
+        "channel":{
+            "id":2676704,
+            "channel_id":14,
+            "name":"Booking.com"
+        },
+        "adults":1.0,
+        "children":0.0,
+        "check-in":"15:00",
+        "check-out":"11:00",
+        "language":"de",
+        "is-blocked-booking":false,
+        "guestId":64296488.0,
+        "related":[
+
+        ]
+    }
+]
