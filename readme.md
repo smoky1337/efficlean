@@ -1,6 +1,6 @@
 # EffiClean - Cleaning Schedule Dash Application for short term rentals
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/smoky1337/efficlean/blob/master/README.md)
-[![ger](https://img.shields.io/badge/lang-ger-green.svg)](https://github.com/smoky1337/efficlean/blob/master/README-de.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/smoky1337/efficlean/blob/master/readme.md)
+[![ger](https://img.shields.io/badge/lang-ger-green.svg)](https://github.com/smoky1337/efficlean/blob/master/readme-de.md)
 
 Welcome to EffiClean, a lightweight tool designed to help property managers and cleaning teams efficiently schedule cleaning tasks for short-term rental properties. This tool currently integrates with **Smoobu**, a popular booking management system, to generate optimized cleaning schedules and ensure a seamless guest experience.
 
